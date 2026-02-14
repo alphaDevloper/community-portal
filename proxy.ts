@@ -1,6 +1,48 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-export default clerkMiddleware();
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/api/webhooks(.*)",
+]);
+
+const isAdminRoute = createRouteMatcher(["/admin(.*)", "/dashboard/admin(.*)"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  const { userId, sessionClaims } = await auth();
+
+  if (isPublicRoute(req)) {
+    return NextResponse.next();
+  }
+
+  if (!userId) {
+    const signInUrl = new URL("/sign-in", req.url);
+    signInUrl.searchParams.set("redirect_url", req.url);
+    return NextResponse.redirect(signInUrl);
+  }
+
+  if (isAdminRoute(req)) {
+    // Try multiple ways to access role
+    const role =
+      (sessionClaims?.metadata as { role?: string })?.role || // If you used first JSON
+      (sessionClaims?.role as string) || // If you used second JSON
+      (sessionClaims?.public_metadata as { role?: string })?.role; // Direct access
+
+    console.log("Admin check:", {
+      role,
+      userId,
+      allClaims: sessionClaims,
+    }); // Debug
+
+    if (role !== "admin") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+  }
+
+  return NextResponse.next();
+});
 
 export const config = {
   matcher: [

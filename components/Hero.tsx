@@ -29,20 +29,24 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col gap-4 sm:flex-row">
-            <Button
-              size="lg"
-              className="rounded-full px-8 text-base font-semibold"
-            >
-              Join Community
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="rounded-full px-8 text-base font-semibold"
-            >
-              Explore Projects
-            </Button>
+            <Link href="/sign-up">
+              <Button
+                size="lg"
+                className="rounded-full px-8 text-base font-semibold cursor-pointer"
+              >
+                Join Community
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+            <Link href="/projects">
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-full px-8 text-base font-semibold cursor-pointer"
+              >
+                Explore Projects
+              </Button>
+            </Link>
           </div>
         </div>
 
