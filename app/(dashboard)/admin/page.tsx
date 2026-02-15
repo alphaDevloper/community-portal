@@ -1,4 +1,11 @@
 import React from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Panel",
+  description:
+    "DevHub Admin Portal — manage tasks, review submissions, approve projects, and create courses.",
+};
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
@@ -11,6 +18,8 @@ import CreateTaskDialog from "@/components/CreateTaskDialog";
 import SubmissionReviewDialog from "@/components/SubmissionReviewDialog";
 import CreateCourseDialog from "@/components/CreateCourseDialog";
 import AddLessonDialog from "@/components/AddLessonDialog";
+import ApproveProjectButton from "@/components/ApproveProjectButton";
+import DeleteItemButton from "@/components/DeleteItemButton";
 import { isAdmin } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { format } from "date-fns";
@@ -106,6 +115,7 @@ export default async function AdminPanelPage() {
                     <TableHead>Difficulty</TableHead>
                     <TableHead>Deadline</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -130,12 +140,19 @@ export default async function AdminPanelPage() {
                           {format(new Date(task.deadline), "MMM d, yyyy")}
                         </TableCell>
                         <TableCell>Active</TableCell>
+                        <TableCell>
+                          <DeleteItemButton
+                            itemId={task._id}
+                            endpoint="/api/tasks"
+                            itemName="task"
+                          />
+                        </TableCell>
                       </TableRow>
                     ))
                   ) : (
                     <TableRow>
                       <TableCell
-                        colSpan={4}
+                        colSpan={5}
                         className="h-24 text-center text-zinc-500"
                       >
                         No tasks created yet.
@@ -184,7 +201,14 @@ export default async function AdminPanelPage() {
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <SubmissionReviewDialog submission={sub} />
+                          <div className="flex items-center gap-1">
+                            <SubmissionReviewDialog submission={sub} />
+                            <DeleteItemButton
+                              itemId={sub._id}
+                              endpoint="/api/submissions"
+                              itemName="submission"
+                            />
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))
@@ -236,11 +260,16 @@ export default async function AdminPanelPage() {
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          {!proj.approved && (
-                            <Button variant="outline" size="sm">
-                              Approve
-                            </Button>
-                          )}
+                          <div className="flex items-center gap-1">
+                            {!proj.approved && (
+                              <ApproveProjectButton projectId={proj._id} />
+                            )}
+                            <DeleteItemButton
+                              itemId={proj._id}
+                              endpoint="/api/projects"
+                              itemName="project"
+                            />
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))
@@ -325,6 +354,11 @@ export default async function AdminPanelPage() {
                             <PublishCourseButton
                               courseId={course._id}
                               published={course.published}
+                            />
+                            <DeleteItemButton
+                              itemId={course._id}
+                              endpoint="/api/courses"
+                              itemName="course"
                             />
                           </div>
                         </TableCell>

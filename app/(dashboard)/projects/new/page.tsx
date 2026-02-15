@@ -19,6 +19,7 @@ import {
   Loader2,
   Upload,
 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AddProjectPage() {
   const [loading, setLoading] = useState(false);
@@ -45,11 +46,16 @@ export default function AddProjectPage() {
     try {
       const res = await fetch("/api/projects", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
       if (res.ok) {
+        toast.success("Project submitted for review!");
         router.push("/projects");
+      } else {
+        const err = await res.json();
+        toast.error(err.error || "Failed to submit project");
       }
     } catch (error) {
       console.error(error);
@@ -130,7 +136,6 @@ export default function AddProjectPage() {
                   name="imageUrl"
                   placeholder="https://imgur.com/yourimage.png"
                   className="pl-10"
-                  required
                 />
               </div>
               <p className="text-xs text-zinc-500">

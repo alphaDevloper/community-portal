@@ -20,7 +20,7 @@ const ProjectSchema = new Schema<IProject>(
     techStack: { type: [String], default: [] },
     githubLink: { type: String, required: true },
     liveLink: { type: String },
-    imageUrl: { type: String, required: true },
+    imageUrl: { type: String, default: "" },
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     approved: { type: Boolean, default: false },
   },

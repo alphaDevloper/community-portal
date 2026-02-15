@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     const { title, description, techStack, githubLink, imageUrl, liveLink } =
       body;
 
-    if (!title || !description || !techStack || !githubLink || !imageUrl) {
+    if (!title || !description || !techStack || !githubLink) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },

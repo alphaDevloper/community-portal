@@ -10,6 +10,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { isAdmin } from "@/lib/auth";
+import MobileSidebar from "@/components/MobileSidebar";
 
 export default async function DashboardLayout({
   children,
@@ -19,16 +20,52 @@ export default async function DashboardLayout({
   const admin = await isAdmin();
 
   const navItems = [
-    { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { label: "Tasks", href: "/tasks", icon: CheckSquare },
-    { label: "My Submissions", href: "/submissions", icon: Send },
-    { label: "Projects", href: "/projects", icon: FolderSearch },
-    { label: "Courses", href: "/courses", icon: BookOpen },
+    {
+      label: "Dashboard",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+      iconName: "LayoutDashboard",
+    },
+    {
+      label: "Tasks",
+      href: "/tasks",
+      icon: CheckSquare,
+      iconName: "CheckSquare",
+    },
+    {
+      label: "My Submissions",
+      href: "/submissions",
+      icon: Send,
+      iconName: "Send",
+    },
+    {
+      label: "Projects",
+      href: "/projects",
+      icon: FolderSearch,
+      iconName: "FolderSearch",
+    },
+    {
+      label: "Courses",
+      href: "/courses",
+      icon: BookOpen,
+      iconName: "BookOpen",
+    },
   ];
 
   if (admin) {
-    navItems.push({ label: "Admin Panel", href: "/admin", icon: ShieldCheck });
+    navItems.push({
+      label: "Admin Panel",
+      href: "/admin",
+      icon: ShieldCheck,
+      iconName: "ShieldCheck",
+    });
   }
+
+  const mobileNavItems = navItems.map(({ label, href, iconName }) => ({
+    label,
+    href,
+    iconName,
+  }));
 
   return (
     <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950">
@@ -59,7 +96,10 @@ export default async function DashboardLayout({
       <div className="flex-1 md:pl-64">
         <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-900/80">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-            <h1 className="text-lg font-semibold">Community Dashboard</h1>
+            <div className="flex items-center gap-3">
+              <MobileSidebar navItems={mobileNavItems} />
+              <h1 className="text-lg font-semibold">Community Dashboard</h1>
+            </div>
             <UserButton afterSignOutUrl="/" />
           </div>
         </header>

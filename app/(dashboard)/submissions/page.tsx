@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -12,10 +11,11 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { Github, ExternalLink } from "lucide-react";
+import { Github } from "lucide-react";
+import EditSubmissionDialog from "@/components/EditSubmissionDialog";
 
 export default function MySubmissionsPage() {
-  const [submissions, setSubmissions] = useState([]);
+  const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,6 +27,12 @@ export default function MySubmissionsPage() {
       })
       .catch(() => setLoading(false));
   }, []);
+
+  const handleUpdated = (updated: any) => {
+    setSubmissions((prev) =>
+      prev.map((s) => (s._id === updated._id ? updated : s)),
+    );
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -49,6 +55,7 @@ export default function MySubmissionsPage() {
               <TableHead>GitHub Link</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Feedback</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -87,12 +94,18 @@ export default function MySubmissionsPage() {
                 <TableCell className="max-w-xs truncate text-zinc-500">
                   {sub.feedback || "Awaiting review..."}
                 </TableCell>
+                <TableCell>
+                  <EditSubmissionDialog
+                    submission={sub}
+                    onUpdated={handleUpdated}
+                  />
+                </TableCell>
               </TableRow>
             ))}
             {submissions.length === 0 && (
               <TableRow>
                 <TableCell
-                  colSpan={5}
+                  colSpan={6}
                   className="h-24 text-center text-zinc-500"
                 >
                   No submissions yet. Go to Tasks to find something to work on!

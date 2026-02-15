@@ -63,14 +63,20 @@ export default function ProjectShowcasePage() {
             key={project._id}
             className="group overflow-hidden border-zinc-200 bg-white transition-all hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-950"
           >
-            <div className="relative aspect-video overflow-hidden">
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </div>
+            {project.imageUrl ? (
+              <div className="relative aspect-video overflow-hidden">
+                <img
+                  src={project.imageUrl}
+                  alt={project.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </div>
+            ) : (
+              <div className="aspect-video bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400 text-sm">
+                No preview image
+              </div>
+            )}
             <CardHeader className="space-y-1">
               <CardTitle className="text-xl">{project.title}</CardTitle>
               <CardDescription className="line-clamp-2">

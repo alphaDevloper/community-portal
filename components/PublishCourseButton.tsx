@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function PublishCourseButton({
   courseId,
@@ -28,7 +29,7 @@ export default function PublishCourseButton({
         router.refresh();
       } else {
         const err = await res.json();
-        alert(err.error || "Failed to update course");
+        toast.error(err.error || "Failed to update course");
       }
     } catch (error) {
       console.error(error);

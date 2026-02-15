@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function CreateCourseDialog() {
   const [open, setOpen] = useState(false);
@@ -50,11 +51,11 @@ export default function CreateCourseDialog() {
         router.refresh();
       } else {
         const err = await res.json();
-        alert(err.error || "Failed to create course");
+        toast.error(err.error || "Failed to create course");
       }
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -17,12 +17,14 @@ export default function Footer() {
               Join our community of ambitious students and expert developers.
               Stop learning theory and start building the future.
             </p>
-            <Button
-              size="lg"
-              className="rounded-full px-12 text-lg shadow-xl shadow-blue-500/20 hover:scale-105 transition-transform duration-300"
-            >
-              Join the Community
-            </Button>
+            <Link href="/sign-up">
+              <Button
+                size="lg"
+                className="rounded-full px-12 text-lg shadow-xl shadow-blue-500/20 hover:scale-105 transition-transform duration-300"
+              >
+                Join the Community
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -69,7 +71,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/projects"
                     className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300"
                   >
                     Projects
