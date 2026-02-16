@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { LoaderIcon } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -30,13 +31,8 @@ export default function ProjectShowcasePage() {
 
   if (loading)
     return (
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="h-80 animate-pulse rounded-xl bg-zinc-200 dark:bg-zinc-800"
-          />
-        ))}
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <LoaderIcon className="h-16 w-16 animate-spin text-zinc-400" />
       </div>
     );
 

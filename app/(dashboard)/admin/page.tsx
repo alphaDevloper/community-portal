@@ -38,7 +38,18 @@ import Task from "@/models/task";
 import Submission from "@/models/submission";
 import Project from "@/models/project";
 import Course from "@/models/course";
+import User from "@/models/user";
 import PublishCourseButton from "@/components/PublishCourseButton";
+import {
+  Users,
+  ClipboardList,
+  Send,
+  CheckCircle2,
+  FolderOpen,
+  FolderCheck,
+  BookOpen,
+  BookCheck,
+} from "lucide-react";
 
 export default async function AdminPanelPage() {
   const isUserAdmin = await isAdmin();
@@ -79,6 +90,76 @@ export default async function AdminPanelPage() {
     ),
   );
 
+  const totalUsers = await User.countDocuments({});
+  const totalTasks = tasks.length;
+  const totalSubmissions = submissions.length;
+  const approvedSubmissions = submissions.filter(
+    (s: any) => s.status === "approved",
+  ).length;
+  const totalProjects = projects.length;
+  const approvedProjects = projects.filter((p: any) => p.approved).length;
+  const totalCourses = courses.length;
+  const publishedCourses = courses.filter((c: any) => c.published).length;
+
+  const stats = [
+    {
+      label: "Registered Users",
+      value: totalUsers,
+      icon: Users,
+      color: "text-blue-600",
+      bg: "rounded-lg bg-blue-100 dark:bg-blue-900/30",
+    },
+    {
+      label: "Total Tasks",
+      value: totalTasks,
+      icon: ClipboardList,
+      color: "text-amber-600",
+      bg: "rounded-lg bg-amber-100 dark:bg-amber-900/30",
+    },
+    {
+      label: "Total Submissions",
+      value: totalSubmissions,
+      icon: Send,
+      color: "text-violet-600",
+      bg: "rounded-lg bg-violet-100 dark:bg-violet-900/30",
+    },
+    {
+      label: "Approved Submissions",
+      value: approvedSubmissions,
+      icon: CheckCircle2,
+      color: "text-green-600",
+      bg: "rounded-lg bg-green-100 dark:bg-green-900/30",
+    },
+    {
+      label: "Total Projects",
+      value: totalProjects,
+      icon: FolderOpen,
+      color: "text-orange-600",
+      bg: "rounded-lg bg-orange-100 dark:bg-orange-900/30",
+    },
+    {
+      label: "Approved Projects",
+      value: approvedProjects,
+      icon: FolderCheck,
+      color: "text-emerald-600",
+      bg: "rounded-lg bg-emerald-100 dark:bg-emerald-900/30",
+    },
+    {
+      label: "Total Courses",
+      value: totalCourses,
+      icon: BookOpen,
+      color: "text-cyan-600",
+      bg: "rounded-lg bg-cyan-100 dark:bg-cyan-900/30",
+    },
+    {
+      label: "Published Courses",
+      value: publishedCourses,
+      icon: BookCheck,
+      color: "text-teal-600",
+      bg: "rounded-lg bg-teal-100 dark:bg-teal-900/30",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -86,6 +167,28 @@ export default async function AdminPanelPage() {
         <p className="text-zinc-600">
           Manage community content, tasks, projects, and courses.
         </p>
+      </div>
+
+      {/* Admin Stats Grid */}
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900 transition-all hover:shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                {stat.label}
+              </p>
+              <div
+                className={`flex h-10 w-10 items-center justify-center ${stat.bg}`}
+              >
+                <stat.icon className={`h-5 w-5 ${stat.color}`} />
+              </div>
+            </div>
+            <p className="mt-3 text-3xl font-bold">{stat.value}</p>
+          </div>
+        ))}
       </div>
 
       <Tabs defaultValue="tasks" className="w-full">

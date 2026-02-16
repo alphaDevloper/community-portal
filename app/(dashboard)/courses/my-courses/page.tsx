@@ -11,7 +11,13 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Trophy, CheckCircle2, Loader2 } from "lucide-react";
+import {
+  BookOpen,
+  Trophy,
+  CheckCircle2,
+  Loader2,
+  LoaderIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { getThumbnailUrl } from "@/lib/utils/thumbnail";
 
@@ -70,8 +76,8 @@ export default function MyCoursesPage() {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center p-12">
-        <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <LoaderIcon className="h-16 w-16 animate-spin text-zinc-400" />
       </div>
     );
 

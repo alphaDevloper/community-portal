@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { Github } from "lucide-react";
+import { Github, LoaderIcon } from "lucide-react";
 import EditSubmissionDialog from "@/components/EditSubmissionDialog";
 
 export default function MySubmissionsPage() {
@@ -34,7 +34,12 @@ export default function MySubmissionsPage() {
     );
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <LoaderIcon className="h-16 w-16 animate-spin text-zinc-400" />
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-6">

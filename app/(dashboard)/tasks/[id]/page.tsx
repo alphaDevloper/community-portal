@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { LoaderIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -63,7 +64,12 @@ export default function TaskDetailsPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <LoaderIcon className="h-16 w-16 animate-spin text-zinc-400" />
+      </div>
+    );
   if (!task) return <div>Task not found</div>;
 
   return (

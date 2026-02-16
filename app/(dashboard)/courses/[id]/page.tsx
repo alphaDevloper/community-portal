@@ -21,6 +21,7 @@ import {
   PlayCircle,
   CheckCircle2,
   Loader2,
+  LoaderIcon,
   Lock,
   Trophy,
   Circle,
@@ -109,8 +110,8 @@ export default function CourseDetailsPage() {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center p-12">
-        <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <LoaderIcon className="h-16 w-16 animate-spin text-zinc-400" />
       </div>
     );
   if (!course) return <div>Course not found</div>;

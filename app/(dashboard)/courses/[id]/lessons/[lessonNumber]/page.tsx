@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   Circle,
   Loader2,
+  LoaderIcon,
   Trophy,
   BookOpen,
 } from "lucide-react";
@@ -106,8 +107,8 @@ export default function LessonPage() {
 
   if (loading)
     return (
-      <div className="flex items-center justify-center p-12">
-        <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <LoaderIcon className="h-16 w-16 animate-spin text-zinc-400" />
       </div>
     );
   if (!course) return <div className="p-8">Course not found</div>;
@@ -197,7 +198,10 @@ export default function LessonPage() {
                 </Button>
               </Link>
             ) : (
-              <div className="flex-1" />
+              <Button variant="outline" className="flex-1 gap-2 h-11" disabled>
+                <ChevronLeft className="h-4 w-4" />
+                <span>Previous Lesson</span>
+              </Button>
             )}
             {nextLesson ? (
               <Link
@@ -211,7 +215,10 @@ export default function LessonPage() {
                 </Button>
               </Link>
             ) : (
-              <div className="flex-1" />
+              <Button className="flex-1 gap-2 h-11" disabled>
+                <span>Next Lesson</span>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
             )}
           </div>
 
