@@ -129,17 +129,17 @@ export default function LessonPage() {
   const percentage = progress?.percentage || 0;
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
+    <div className="w-full max-w-6xl mx-auto space-y-6">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-zinc-500">
+      <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm text-zinc-500">
         <Link
           href={`/courses/${id}`}
-          className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+          className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors truncate max-w-[150px] sm:max-w-none"
         >
           {course.title}
         </Link>
-        <ChevronRight className="h-3 w-3" />
-        <span className="text-zinc-900 dark:text-zinc-100 font-medium">
+        <ChevronRight className="h-3 w-3 shrink-0" />
+        <span className="text-zinc-900 dark:text-zinc-100 font-medium truncate">
           Lesson {lessonNumber}: {lesson.title}
         </span>
       </div>
@@ -170,11 +170,11 @@ export default function LessonPage() {
         </div>
       )}
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+      <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1fr_280px]">
         {/* Main Content */}
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-0">
           {/* Video Player */}
-          <div className="overflow-hidden rounded-2xl bg-black aspect-video shadow-2xl">
+          <div className="overflow-hidden rounded-xl sm:rounded-2xl bg-black aspect-video shadow-2xl">
             {lesson.videoUrl ? (
               <VideoPlayer url={lesson.videoUrl} />
             ) : (
@@ -185,39 +185,39 @@ export default function LessonPage() {
           </div>
 
           {/* Prev/Next Navigation — Prominent */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch gap-2 sm:gap-3">
             {prevLesson ? (
               <Link
                 href={`/courses/${id}/lessons/${prevLesson.lessonNumber}`}
-                className="flex-1"
+                className="flex-1 min-w-0"
               >
                 <Button variant="outline" className="w-full gap-2 h-11">
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-4 w-4 shrink-0" />
                   <span className="hidden sm:inline">Previous:</span>{" "}
                   <span className="truncate">{prevLesson.title}</span>
                 </Button>
               </Link>
             ) : (
               <Button variant="outline" className="flex-1 gap-2 h-11" disabled>
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-4 w-4 shrink-0" />
                 <span>Previous Lesson</span>
               </Button>
             )}
             {nextLesson ? (
               <Link
                 href={`/courses/${id}/lessons/${nextLesson.lessonNumber}`}
-                className="flex-1"
+                className="flex-1 min-w-0"
               >
                 <Button className="w-full gap-2 h-11">
                   <span className="hidden sm:inline">Next:</span>{" "}
                   <span className="truncate">{nextLesson.title}</span>
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-4 w-4 shrink-0" />
                 </Button>
               </Link>
             ) : (
               <Button className="flex-1 gap-2 h-11" disabled>
                 <span>Next Lesson</span>
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-4 w-4 shrink-0" />
               </Button>
             )}
           </div>
@@ -275,8 +275,8 @@ export default function LessonPage() {
           )}
 
           {/* Lesson Content */}
-          <div className="rounded-xl border border-zinc-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-950">
-            <div className="prose prose-zinc dark:prose-invert max-w-none">
+          <div className="rounded-xl border border-zinc-200 bg-white p-4 sm:p-8 dark:border-zinc-800 dark:bg-zinc-950">
+            <div className="prose prose-zinc dark:prose-invert max-w-none overflow-x-auto">
               <h2 className="text-2xl font-bold mb-4">{lesson.title}</h2>
               <ReactMarkdown>{lesson.content}</ReactMarkdown>
             </div>
@@ -305,8 +305,8 @@ export default function LessonPage() {
         </div>
 
         {/* Right Sidebar — Module Progress */}
-        <div className="space-y-4">
-          <div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 sticky top-4">
+        <div className="space-y-4 min-w-0 order-first lg:order-none">
+          <div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 lg:sticky lg:top-4">
             <div className="p-4 border-b border-zinc-100 dark:border-zinc-800">
               <div className="flex items-center gap-2">
                 <BookOpen className="h-4 w-4 text-zinc-500" />

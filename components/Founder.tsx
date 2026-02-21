@@ -65,6 +65,46 @@ export default function Founder() {
             </div>
           </div>
         </div>
+
+        {/* Admin Team Grid */}
+        {/* <div className="mt-20">
+          <h3 className="mb-10 text-center text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
+            Meet the Team
+          </h3>
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { name: "Abdullah Alam", role: "Founder & Lead Developer" },
+              { name: "Admin 2", role: "Content Manager" },
+              { name: "Admin 3", role: "Community Manager" },
+            ].map((admin) => (
+              <div
+                key={admin.name}
+                className="group flex flex-col items-center rounded-2xl border border-zinc-200 bg-white p-8 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1 dark:border-zinc-800 dark:bg-zinc-900"
+              >
+                <div className="relative mb-5">
+                  <div className="absolute -inset-1 rounded-full bg-linear-to-r from-blue-600 to-indigo-600 opacity-0 blur transition duration-500 group-hover:opacity-30" />
+                  <div className="relative h-28 w-28 overflow-hidden rounded-full border-2 border-zinc-100 shadow-lg dark:border-zinc-800">
+                    <Image
+                      src="/Abdullah Alam.jpeg"
+                      alt={admin.name}
+                      fill
+                      className="object-cover object-top"
+                    />
+                  </div>
+                </div>
+                <h4 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-50">
+                  {admin.name}
+                </h4>
+                <Badge
+                  variant="secondary"
+                  className="rounded-full px-4 py-1 text-xs"
+                >
+                  {admin.role}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </div> */}
       </div>
     </section>
   );
