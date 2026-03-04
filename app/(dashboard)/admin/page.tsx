@@ -1,6 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Admin Panel",
   description:
@@ -161,109 +163,139 @@ export default async function AdminPanelPage() {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Admin Panel</h2>
-        <p className="text-zinc-600">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          Admin Panel
+        </h2>
+        <p className="text-sm sm:text-base text-zinc-600">
           Manage community content, tasks, projects, and courses.
         </p>
       </div>
 
       {/* Admin Stats Grid */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900 transition-all hover:shadow-md"
+            className="rounded-xl border border-zinc-200 bg-white p-3 sm:p-5 dark:border-zinc-800 dark:bg-zinc-900 transition-all hover:shadow-md"
           >
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs sm:text-sm font-medium text-zinc-500 dark:text-zinc-400">
                 {stat.label}
               </p>
               <div
-                className={`flex h-10 w-10 items-center justify-center ${stat.bg}`}
+                className={`flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center ${stat.bg}`}
               >
-                <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                <stat.icon className={`h-4 w-4 sm:h-5 sm:w-5 ${stat.color}`} />
               </div>
             </div>
-            <p className="mt-3 text-3xl font-bold">{stat.value}</p>
+            <p className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold">
+              {stat.value}
+            </p>
           </div>
         ))}
       </div>
 
       <Tabs defaultValue="tasks" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:w-[600px]">
-          <TabsTrigger value="tasks">Tasks</TabsTrigger>
-          <TabsTrigger value="submissions">Submissions</TabsTrigger>
-          <TabsTrigger value="projects">Projects</TabsTrigger>
-          <TabsTrigger value="courses">Courses</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 lg:w-[600px] h-auto">
+          <TabsTrigger
+            value="tasks"
+            className="text-xs sm:text-sm px-1 sm:px-3 py-2"
+          >
+            Tasks
+          </TabsTrigger>
+          <TabsTrigger
+            value="submissions"
+            className="text-xs sm:text-sm px-1 sm:px-3 py-2"
+          >
+            Submissions
+          </TabsTrigger>
+          <TabsTrigger
+            value="projects"
+            className="text-xs sm:text-sm px-1 sm:px-3 py-2"
+          >
+            Projects
+          </TabsTrigger>
+          <TabsTrigger
+            value="courses"
+            className="text-xs sm:text-sm px-1 sm:px-3 py-2"
+          >
+            Courses
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="tasks" className="mt-6">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 space-y-0">
               <div>
-                <CardTitle>Task Management</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-base sm:text-lg">
+                  Task Management
+                </CardTitle>
+                <CardDescription className="text-xs sm:text-sm">
                   Create and manage community tasks for students.
                 </CardDescription>
               </div>
               <CreateTaskDialog />
             </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Difficulty</TableHead>
-                    <TableHead>Deadline</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {tasks.length > 0 ? (
-                    tasks.map((task: any) => (
-                      <TableRow key={task._id}>
-                        <TableCell className="font-medium">
-                          {task.title}
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              task.difficulty === "beginner"
-                                ? "secondary"
-                                : "default"
-                            }
-                          >
-                            {task.difficulty}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          {format(new Date(task.deadline), "MMM d, yyyy")}
-                        </TableCell>
-                        <TableCell>Active</TableCell>
-                        <TableCell>
-                          <DeleteItemButton
-                            itemId={task._id}
-                            endpoint="/api/tasks"
-                            itemName="task"
-                          />
+            <CardContent className="px-2 sm:px-6">
+              <div className="overflow-x-auto -mx-2 sm:mx-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[150px]">Title</TableHead>
+                      <TableHead>Difficulty</TableHead>
+                      <TableHead className="hidden sm:table-cell">
+                        Deadline
+                      </TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {tasks.length > 0 ? (
+                      tasks.map((task: any) => (
+                        <TableRow key={task._id}>
+                          <TableCell className="font-medium">
+                            {task.title}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                task.difficulty === "beginner"
+                                  ? "secondary"
+                                  : "default"
+                              }
+                            >
+                              {task.difficulty}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            {format(new Date(task.deadline), "MMM d, yyyy")}
+                          </TableCell>
+                          <TableCell>Active</TableCell>
+                          <TableCell>
+                            <DeleteItemButton
+                              itemId={task._id}
+                              endpoint="/api/tasks"
+                              itemName="task"
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          className="h-24 text-center text-zinc-500"
+                        >
+                          No tasks created yet.
                         </TableCell>
                       </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={5}
-                        className="h-24 text-center text-zinc-500"
-                      >
-                        No tasks created yet.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -276,57 +308,63 @@ export default async function AdminPanelPage() {
                 Review student submissions and provide feedback.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Student</TableHead>
-                    <TableHead>Task</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {submissions.length > 0 ? (
-                    submissions.map((sub: any) => (
-                      <TableRow key={sub._id}>
-                        <TableCell>{sub.userId?.name || "Unknown"}</TableCell>
-                        <TableCell>{sub.taskId?.title || "Unknown"}</TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              sub.status === "approved"
-                                ? "default"
-                                : "secondary"
-                            }
-                          >
-                            {sub.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            <SubmissionReviewDialog submission={sub} />
-                            <DeleteItemButton
-                              itemId={sub._id}
-                              endpoint="/api/submissions"
-                              itemName="submission"
-                            />
-                          </div>
+            <CardContent className="px-2 sm:px-6">
+              <div className="overflow-x-auto -mx-2 sm:mx-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[100px]">Student</TableHead>
+                      <TableHead className="hidden sm:table-cell">
+                        Task
+                      </TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {submissions.length > 0 ? (
+                      submissions.map((sub: any) => (
+                        <TableRow key={sub._id}>
+                          <TableCell>{sub.userId?.name || "Unknown"}</TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            {sub.taskId?.title || "Unknown"}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                sub.status === "approved"
+                                  ? "default"
+                                  : "secondary"
+                              }
+                            >
+                              {sub.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              <SubmissionReviewDialog submission={sub} />
+                              <DeleteItemButton
+                                itemId={sub._id}
+                                endpoint="/api/submissions"
+                                itemName="submission"
+                              />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={4}
+                          className="h-24 text-center text-zinc-500"
+                        >
+                          No submissions to review.
                         </TableCell>
                       </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={4}
-                        className="h-24 text-center text-zinc-500"
-                      >
-                        No submissions to review.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -339,146 +377,164 @@ export default async function AdminPanelPage() {
                 Review and approve student projects for the showcase.
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Project</TableHead>
-                    <TableHead>Student</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {projects.length > 0 ? (
-                    projects.map((proj: any) => (
-                      <TableRow key={proj._id}>
-                        <TableCell>{proj.title}</TableCell>
-                        <TableCell>{proj.userId?.name || "Unknown"}</TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={proj.approved ? "default" : "secondary"}
-                          >
-                            {proj.approved ? "Approved" : "Pending"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            {!proj.approved && (
-                              <ApproveProjectButton projectId={proj._id} />
-                            )}
-                            <DeleteItemButton
-                              itemId={proj._id}
-                              endpoint="/api/projects"
-                              itemName="project"
-                            />
-                          </div>
+            <CardContent className="px-2 sm:px-6">
+              <div className="overflow-x-auto -mx-2 sm:mx-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[120px]">Project</TableHead>
+                      <TableHead className="hidden sm:table-cell">
+                        Student
+                      </TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Action</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {projects.length > 0 ? (
+                      projects.map((proj: any) => (
+                        <TableRow key={proj._id}>
+                          <TableCell>{proj.title}</TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            {proj.userId?.name || "Unknown"}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={proj.approved ? "default" : "secondary"}
+                            >
+                              {proj.approved ? "Approved" : "Pending"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              {!proj.approved && (
+                                <ApproveProjectButton projectId={proj._id} />
+                              )}
+                              <DeleteItemButton
+                                itemId={proj._id}
+                                endpoint="/api/projects"
+                                itemName="project"
+                              />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={4}
+                          className="h-24 text-center text-zinc-500"
+                        >
+                          No projects to review.
                         </TableCell>
                       </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={4}
-                        className="h-24 text-center text-zinc-500"
-                      >
-                        No projects to review.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="courses" className="mt-6">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 space-y-0">
               <div>
-                <CardTitle>Course Management</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-base sm:text-lg">
+                  Course Management
+                </CardTitle>
+                <CardDescription className="text-xs sm:text-sm">
                   Create and manage courses for students.
                 </CardDescription>
               </div>
               <CreateCourseDialog />
             </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Difficulty</TableHead>
-                    <TableHead>Lessons</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {courses.length > 0 ? (
-                    courses.map((course: any) => (
-                      <TableRow key={course._id}>
-                        <TableCell className="font-medium">
-                          {course.title}
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{course.category}</Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              course.difficulty === "beginner"
-                                ? "secondary"
-                                : "default"
-                            }
-                          >
-                            {course.difficulty}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">
-                            {course.lessons?.length || 0} lessons
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={course.published ? "default" : "secondary"}
-                          >
-                            {course.published ? "Published" : "Draft"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <AddLessonDialog
-                              courseId={course._id}
-                              lessonCount={course.lessons?.length || 0}
-                            />
-                            <PublishCourseButton
-                              courseId={course._id}
-                              published={course.published}
-                            />
-                            <DeleteItemButton
-                              itemId={course._id}
-                              endpoint="/api/courses"
-                              itemName="course"
-                            />
-                          </div>
+            <CardContent className="px-2 sm:px-6">
+              <div className="overflow-x-auto -mx-2 sm:mx-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[150px]">Title</TableHead>
+                      <TableHead className="hidden sm:table-cell">
+                        Category
+                      </TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Difficulty
+                      </TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Lessons
+                      </TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {courses.length > 0 ? (
+                      courses.map((course: any) => (
+                        <TableRow key={course._id}>
+                          <TableCell className="font-medium">
+                            {course.title}
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            <Badge variant="outline">{course.category}</Badge>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            <Badge
+                              variant={
+                                course.difficulty === "beginner"
+                                  ? "secondary"
+                                  : "default"
+                              }
+                            >
+                              {course.difficulty}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">
+                            <Badge variant="outline">
+                              {course.lessons?.length || 0} lessons
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                course.published ? "default" : "secondary"
+                              }
+                            >
+                              {course.published ? "Published" : "Draft"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+                              <AddLessonDialog
+                                courseId={course._id}
+                                lessonCount={course.lessons?.length || 0}
+                              />
+                              <PublishCourseButton
+                                courseId={course._id}
+                                published={course.published}
+                              />
+                              <DeleteItemButton
+                                itemId={course._id}
+                                endpoint="/api/courses"
+                                itemName="course"
+                              />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={6}
+                          className="h-24 text-center text-zinc-500"
+                        >
+                          No courses created yet.
                         </TableCell>
                       </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={6}
-                        className="h-24 text-center text-zinc-500"
-                      >
-                        No courses created yet.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

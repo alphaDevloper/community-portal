@@ -9,8 +9,8 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Code2, Menu } from "lucide-react";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Code2, Menu, ShieldCheck } from "lucide-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -22,6 +22,8 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const { user } = useUser();
+  const isAdmin = (user?.publicMetadata as { role?: string })?.role === "admin";
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -91,6 +93,17 @@ export default function Navbar() {
                 Dashboard
               </Button>
             </Link>
+            {isAdmin && (
+              <Link href="/admin">
+                <Button
+                  variant="ghost"
+                  className="hidden sm:inline-flex cursor-pointer gap-1.5 text-violet-600 dark:text-violet-400"
+                >
+                  <ShieldCheck className="h-4 w-4" />
+                  Admin
+                </Button>
+              </Link>
+            )}
             <UserButton
               appearance={{
                 elements: {
@@ -146,6 +159,17 @@ export default function Navbar() {
                     <Link href="/dashboard" onClick={() => setOpen(false)}>
                       <Button className="w-full">Dashboard</Button>
                     </Link>
+                    {isAdmin && (
+                      <Link href="/admin" onClick={() => setOpen(false)}>
+                        <Button
+                          variant="outline"
+                          className="w-full gap-1.5 text-violet-600 dark:text-violet-400"
+                        >
+                          <ShieldCheck className="h-4 w-4" />
+                          Admin Panel
+                        </Button>
+                      </Link>
+                    )}
                   </SignedIn>
                 </div>
               </div>

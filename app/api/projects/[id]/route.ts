@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import connectToDatabase from "@/lib/mongodb";
 import Project from "@/models/project";
 import { isAdmin } from "@/lib/auth";
@@ -36,6 +37,8 @@ export async function PATCH(
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
+    revalidatePath("/admin");
+    revalidatePath("/projects");
     return NextResponse.json({ success: true, project: updatedProject });
   } catch (error) {
     console.error("Error in PATCH /api/projects/[id]:", error);

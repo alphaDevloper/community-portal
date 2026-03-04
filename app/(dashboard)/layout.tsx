@@ -100,7 +100,7 @@ export default async function DashboardLayout({
               <MobileSidebar navItems={mobileNavItems} />
               <h1 className="text-lg font-semibold">Community Dashboard</h1>
             </div>
-            <UserButton afterSignOutUrl="/" />
+            <UserButton />
           </div>
         </header>
 

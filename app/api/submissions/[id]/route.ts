@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import connectToDatabase from "@/lib/mongodb";
 import Submission from "@/models/submission";
 import { isAdmin } from "@/lib/auth";
@@ -41,6 +42,8 @@ export async function PATCH(
       );
     }
 
+    revalidatePath("/admin");
+    revalidatePath("/submissions");
     return NextResponse.json({ success: true, submission: updatedSubmission });
   } catch (error) {
     console.error("Error in PATCH /api/submissions/[id]:", error);
