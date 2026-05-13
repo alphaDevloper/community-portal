@@ -38,9 +38,7 @@ export default function Footer() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-white dark:bg-white dark:text-black">
                   <Code2 className="h-5 w-5" />
                 </div>
-                <span className="text-lg font-bold tracking-tight">
-                  DevConnect
-                </span>
+                <span className="text-lg font-bold tracking-tight">DevHub</span>
               </Link>
               <p className="max-w-xs text-sm text-zinc-500 leading-relaxed">
                 Bridging the gap between software engineering theory and
